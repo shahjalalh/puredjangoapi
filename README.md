@@ -7,9 +7,15 @@ $ source py3env/bin/activate
 (py3env) $ pip install django==1.11.9
 ```
 
-User credentials:
+### User credentials:
 ```
 user: shahjalal
 pass: admin1234
 ```
 
+### The endpoints and the URLS
+
+```
+/userprofiles/ GETs list of user profile
+/userprofiles/<id>/ GETs data of a specific user profile
+```
