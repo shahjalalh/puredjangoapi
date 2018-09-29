@@ -5,6 +5,10 @@ from django.core.serializers import serialize
 
 
 def userprofiles_list(request):
+    """
+    Retrieve (GET)
+    List of data
+    """
 
     up_list = UserProfile.objects.all()
 
@@ -34,21 +38,25 @@ def userprofiles_list(request):
 
 
 def userprofile_detail(request, pk):
+    """
+    Retrieve (GET)
+    Detail of data
+    """
     up_detail = get_object_or_404(UserProfile, pk=pk)
 
-    up_detail_dict = dict()
-
-    up_detail_dict["username"] = up_detail.user.username
-    up_detail_dict["first_name"] = up_detail.user.first_name
-    up_detail_dict["last_name"] = up_detail.user.last_name
-    up_detail_dict["email"] = up_detail.user.email
-    up_detail_dict["is_active"] = up_detail.user.is_active
-    up_detail_dict["birth_date"] = up_detail.birth_date
-    up_detail_dict["location"] = up_detail.location
-    up_detail_dict["bio"] = up_detail.bio
-    up_detail_dict["id"] = up_detail.id
-    up_detail_dict["avatar"] = up_detail.avatar.name
-
-    data = {"result": up_detail_dict}
+    data = {
+        "result": {
+            "username": up_detail.user.username,
+            "first_name": up_detail.user.first_name,
+            "last_name": up_detail.user.last_name,
+            "email": up_detail.user.email,
+            "is_active": up_detail.user.is_active,
+            "birth_date": up_detail.birth_date,
+            "location": up_detail.location,
+            "bio": up_detail.bio,
+            "id": up_detail.id,
+            "avatar": up_detail.avatar.name
+        }
+    }
 
     return JsonResponse(data)
