@@ -34,4 +34,21 @@ def userprofiles_list(request):
 
 
 def userprofile_detail(request, pk):
-    pass
+    up_detail = get_object_or_404(UserProfile, pk=pk)
+
+    up_detail_dict = dict()
+
+    up_detail_dict["username"] = up_detail.user.username
+    up_detail_dict["first_name"] = up_detail.user.first_name
+    up_detail_dict["last_name"] = up_detail.user.last_name
+    up_detail_dict["email"] = up_detail.user.email
+    up_detail_dict["is_active"] = up_detail.user.is_active
+    up_detail_dict["birth_date"] = up_detail.birth_date
+    up_detail_dict["location"] = up_detail.location
+    up_detail_dict["bio"] = up_detail.bio
+    up_detail_dict["id"] = up_detail.id
+    up_detail_dict["avatar"] = up_detail.avatar.name
+
+    data = {"result": up_detail_dict}
+
+    return JsonResponse(data)
