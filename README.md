@@ -16,6 +16,6 @@ pass: admin1234
 ### The endpoints and the URLS
 
 ```
-/userprofiles/ GETs list of user profile
-/userprofiles/<id>/ GETs data of a specific user profile
+api/userprofiles/ GETs list of user profile
+api/userprofiles/<id>/ GETs data of a specific user profile
 ```
