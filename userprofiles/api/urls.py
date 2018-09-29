@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from userprofiles.api.views import userprofiles_list, userprofile_detail
+from userprofiles.api.views import userprofiles_list, userprofile_detail, create_user
 
 urlpatterns = [
     url(r'^$', userprofiles_list, name='userprofiles_list'),
     url(r'^(?P<pk>[0-9])$', userprofile_detail, name='userprofile_detail'),
+    url(r'create', create_user, name='create_user'),
 
 ]

@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from userprofiles.models import UserProfile
-from django.core.serializers import serialize
 
 
 def userprofiles_list(request):
@@ -60,3 +59,17 @@ def userprofile_detail(request, pk):
     }
 
     return JsonResponse(data)
+
+
+def create_user(request):
+
+    """
+    Create (POST)
+    http://127.0.0.1:8000/api/userprofiles/create/
+    """
+    import pdb;pdb.set_trace()
+
+    if request.method == 'POST':
+        pass
+
+    pass

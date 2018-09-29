@@ -23,4 +23,7 @@ pass: admin1234
 ```
 api/userprofiles/ GETs list of user profile
 api/userprofiles/<id>/ GETs data of a specific user profile
+
+api/userprofiles/create/ POST new user
+
 ```
