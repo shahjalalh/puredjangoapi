@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from userprofiles.models import UserProfile
+from django.views.decorators.csrf import csrf_exempt
 
 
 def userprofiles_list(request):
@@ -61,6 +62,7 @@ def userprofile_detail(request, pk):
     return JsonResponse(data)
 
 
+@csrf_exempt
 def create_user(request):
 
     """
