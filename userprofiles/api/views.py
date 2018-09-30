@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from userprofiles.models import UserProfile
@@ -69,9 +70,23 @@ def create_user(request):
     Create (POST)
     http://127.0.0.1:8000/api/userprofiles/create/
     """
-    import pdb;pdb.set_trace()
 
     if request.method == 'POST':
+
+        # json_data = json.loads(str(request.body))
+        # json_data = request.body
+
+        """
+        <QueryDict: {'first_name': ['First name'], 'last_name': ['Last name'], 'email': ['testuser@gmail.com'], 'username': ['testuser1']}>
+(Pdb) request.POST.get('email')
+'testuser@gmail.com'
+        """
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+
+        import pdb;pdb.set_trace()
         pass
 
     pass
