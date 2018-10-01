@@ -81,10 +81,16 @@ def create_user(request):
 (Pdb) request.POST.get('email')
 'testuser@gmail.com'
         """
+        username = request.POST.get('username')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
-        username = request.POST.get('username')
+        is_active = request.POST.get('is_active')
+        birth_date = request.POST.get('birth_date')
+        location = request.POST.get('location')
+        bio = request.POST.get('bio')
+        avatar = request.data['file']
+
 
         import pdb;pdb.set_trace()
         pass
