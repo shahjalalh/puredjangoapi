@@ -85,6 +85,7 @@ def create_user(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
+        password = request.POST.get('password')
         is_active = request.POST.get('is_active')
         birth_date = request.POST.get('birth_date')
         location = request.POST.get('location')
