@@ -110,13 +110,18 @@ def create_user(request):
 
                 return JsonResponse(data)
 
-        except Exception:
+        except Exception as e:
             data['result']['message'] = 'User can not be created due to an exception.'
+            data['result']['error'] = e.message
             return JsonResponse(data)
 
 
 @csrf_exempt
 def create_profile(request):
+    """
+    Create (POST)
+
+    """
 
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -127,7 +132,7 @@ def create_profile(request):
 
         data = {
             "result": {
-                'message': 'You have successfully register'
+                'message': 'You have successfully created profile'
             }
         }
 
@@ -144,8 +149,96 @@ def create_profile(request):
 
                 return JsonResponse(data)
 
-        except Exception:
+        except Exception as e:
             data['result']['message'] = 'User can not be created due to an exception.'
+            data['result']['error'] = e.message
             return JsonResponse(data)
 
 
+@csrf_exempt
+def update_profile(request):
+    """
+    Update (PUT)
+    """
+
+    if request.method == 'PUT':
+
+        user_id = request.POST.get('user_id')
+        birth_date = request.POST.get('birth_date') if request.POST.get('birth_date') else ''
+        location = request.POST.get('location') if request.POST.get('location') else ''
+        bio = request.POST.get('bio') if request.POST.get('bio') else ''
+        avatar = request.data['file'] if request.data['file'] else ''
+
+        data = {
+            "result": {
+                'message': 'You have successfully updated profile'
+            }
+        }
+
+        try:
+            if User.objects.filter(id=user_id).exists():
+                user = User.objects.filter(id=user_id)
+
+                if UserProfile.objects.filter(user=user).exists():
+
+                    # bad code need to optimize
+                    if birth_date:
+                        UserProfile.objects.update(user=user, birth_date=birth_date)
+                    if location:
+                        UserProfile.objects.update(user=user, location=location)
+                    if bio:
+                        UserProfile.objects.update(user=user, bio=bio)
+                    if avatar:
+                        UserProfile.objects.update(user=user, avatar=avatar)
+
+                    data['result']['message'] = 'User profile updated successfully.'
+
+                    return JsonResponse(data)
+                else:
+                    data['result']['message'] = 'User profile does not exists.'
+
+                    return JsonResponse(data)
+            else:
+
+                data['result']['message'] = 'User does not exists.'
+
+                return JsonResponse(data)
+
+        except Exception as e:
+            data['result']['message'] = 'User can not be updated due to an exception.'
+            data['result']['error'] = e.message
+            return JsonResponse(data)
+
+
+@csrf_exempt
+def delete_profile(request):
+    """
+    Delete (DELETE)
+
+    """
+    if request.method == 'DELETE':
+        user_id = request.POST.get('user_id')
+
+        data = {
+            "result": {
+                'message': 'You have successfully deleted'
+            }
+        }
+
+        try:
+            if User.objects.filter(id=user_id).exists():
+                user = User.objects.get(id=user_id)
+                user.delete()
+
+                data['result']['message'] = 'User deleted successfully.'
+
+                return JsonResponse(data)
+            else:
+                data['result']['message'] = 'User does not exists.'
+
+                return JsonResponse(data)
+
+        except Exception as e:
+            data['result']['message'] = 'User can not be deleted due to an exception.'
+            data['result']['error'] = e.message
+            return JsonResponse(data)
