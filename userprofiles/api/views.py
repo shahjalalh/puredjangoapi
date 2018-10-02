@@ -1,4 +1,5 @@
 import json
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from userprofiles.models import UserProfile
@@ -73,9 +74,6 @@ def create_user(request):
 
     if request.method == 'POST':
 
-        # json_data = json.loads(str(request.body))
-        # json_data = request.body
-
         """
         <QueryDict: {'first_name': ['First name'], 'last_name': ['Last name'], 'email': ['testuser@gmail.com'], 'username': ['testuser1']}>
 (Pdb) request.POST.get('email')
@@ -87,13 +85,67 @@ def create_user(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         is_active = request.POST.get('is_active')
+
+        data = {
+            "result": {
+                'message': 'You have successfully register'
+            }
+        }
+
+        try:
+            if not User.objects.filter(username=username).exists() and not User.objects.filter(email=email).exists():
+                user = User.objects.create_user(username, email, password)
+                user.first_name(first_name)
+                user.last_name(last_name)
+                user.is_active(is_active)
+                user.save()
+
+                data['result']['message'] = 'You have successfully register'
+                data['result']['user_id'] = User.objects.filter(username=username).id
+
+                return JsonResponse(data)
+            else:
+
+                data['result']['message'] = 'The user already exists'
+
+                return JsonResponse(data)
+
+        except Exception:
+            data['result']['message'] = 'User can not be created due to an exception.'
+            return JsonResponse(data)
+
+
+@csrf_exempt
+def create_profile(request):
+
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
         birth_date = request.POST.get('birth_date')
         location = request.POST.get('location')
         bio = request.POST.get('bio')
         avatar = request.data['file']
 
+        data = {
+            "result": {
+                'message': 'You have successfully register'
+            }
+        }
 
-        import pdb;pdb.set_trace()
-        pass
+        try:
+            if User.objects.filter(id=user_id).exists():
+                user = User.objects.filter(id=user_id)
+                user_profile = UserProfile(user=user, birth_date=birth_date, location=location, bio=bio, avatar=avatar)
+                user_profile.save()
 
-    pass
+                data['result']['message'] = 'You have successfully created user profile'
+                return JsonResponse(data)
+            else:
+                data['result']['message'] = 'User does not exists. Can not update user profile.'
+
+                return JsonResponse(data)
+
+        except Exception:
+            data['result']['message'] = 'User can not be created due to an exception.'
+            return JsonResponse(data)
+
+
